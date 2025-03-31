@@ -1,3 +1,22 @@
+# Секреты
 .env
+
+# Кэш Python
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# Виртуальное окружение
+venv/
+env/
+
+# Логи и временные файлы
+*.log
+*.swp
+*.swo
+*.temp
+
+# Конфигурации IDE
+.vscode/
+.idea/
