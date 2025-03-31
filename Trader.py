@@ -7,6 +7,7 @@ from tinkoff.invest import (
     MoneyValue,
     RequestError
 )
+from decouple import config
 from tinkoff.invest.utils import now
 from datetime import datetime, timedelta
 import time
@@ -20,10 +21,11 @@ from plyer import notification
 import traceback
 
 # Конфигурация
-TINKOFF_TOKEN = 'your_tinkoff_token'
-ACCOUNT_ID = 'your_account_id'
-TELEGRAM_TOKEN = 'your_telegram_token'
-CHANNEL_ID = 'your_channel_id'
+# Безопасная конфигурация через переменные окружения
+TINKOFF_TOKEN = config('TINKOFF_TOKEN')  # Берет из .env
+ACCOUNT_ID = config('ACCOUNT_ID')
+TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
+CHANNEL_ID = config('CHANNEL_ID')
 
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 
