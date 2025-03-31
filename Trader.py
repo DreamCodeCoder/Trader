@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+from pathlib import Path  # Для корректной работы с путями
 from tinkoff.invest import (
     Client,
     CandleInterval,
@@ -7,7 +9,6 @@ from tinkoff.invest import (
     MoneyValue,
     RequestError
 )
-from decouple import config
 from tinkoff.invest.utils import now
 from datetime import datetime, timedelta
 import time
@@ -20,14 +21,25 @@ import pandas as pd
 from plyer import notification
 import traceback
 
-# Конфигурация
-# Безопасная конфигурация через переменные окружения
-TINKOFF_TOKEN = config('TINKOFF_TOKEN')  # Берет из .env
-ACCOUNT_ID = config('ACCOUNT_ID')
-TELEGRAM_TOKEN = config('TELEGRAM_TOKEN')
-CHANNEL_ID = config('CHANNEL_ID')
+# Загрузка переменных окружения
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
 
+# Конфигурация
+# Безопасное получение переменных (с проверкой)
+TINKOFF_TOKEN = os.getenv("TINKOFF_TOKEN")
+ACCOUNT_ID = os.getenv("ACCOUNT_ID")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
+
+# Проверка обязательных переменных
+required_vars = [TINKOFF_TOKEN, ACCOUNT_ID, TELEGRAM_TOKEN, CHANNEL_ID]
+if not all(required_vars):
+    raise EnvironmentError("Не все обязательные переменные окружения установлены")
+
+# Инициализация клиентов
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
+client = Client(TINKOFF_TOKEN)
 
 # Данные инструментов
 COMPANY_NAMES = ['Артген', 'АбрауДюрсо', ...]  # Сокращенный список для примера
